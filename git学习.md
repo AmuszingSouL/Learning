@@ -69,3 +69,36 @@ windows禁止使用记事本编辑文档（原因是Microsoft开发记事本的�
 
 
 
+### 第一步，用命令git add告诉Git，把文件添加到仓库：
+
+$ git add readme.txt
+执行上面的命令，没有任何显示，这就对了，Unix的哲学是“没有消息就是好消息”，说明添加成功。
+
+### 第二步，用命令git commit告诉Git，把文件提交到仓库：
+
+$ git commit -m "新增加一个readme文件"
+ [master (root-commit) abab012] 新增加一个readme文件
+ 1 file changed, 2 insertions(+)
+ create mode 100644 Readme.txt
+
+git commit命令执行成功后会告诉你，1 file changed：1个文件被改动（我们新添加的readme.txt文件）；2 insertions：插入了两行内容（readme.txt有两行内容）。
+
+注：git commit 后的-m 必须写（虽然有方法可以不写）   简单明了知道文档的变动  
+
+
+为什么Git添加文件需要add，commit一共两步呢？因为commit可以一次提交很多文件，所以你可以多次add不同的文件，比如：
+
+$ git add file1.txt
+$ git add file2.txt file3.txt
+$ git commit -m "add 3 files."
+
+
+# 小结
+现在总结一下今天学的两点内容：
+
+初始化一个Git仓库，使用git init命令。
+
+添加文件到Git仓库，分两步：
+
+使用命令git add <file>，注意，可反复多次使用，添加多个文件；
+使用命令git commit -m <message>，完成。
