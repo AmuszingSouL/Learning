@@ -169,6 +169,3 @@ git status
 随时了解情况
 
 
-git remote add origin git@github.com:AmazingSoul/Learning.git
-
-ssh-keygen -t rsa -C "410903559@qq.com"
