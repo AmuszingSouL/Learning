@@ -59,34 +59,34 @@ Initialized empty Git repository in /Users/xxxx/Desktop/Learning/.git/
 ls -ah命令就可以看见.git的目录  
 
 # 把文件添加到版本库  
-所有的版本控制系统，其实只能跟踪文本文件的改动，比如TXT文件，网页，所有的程序代码等等，Git也不例外。版本控制系统可以告诉你每次的改动，比如在第5行加了一个单词“Linux”，在第8行删了一个单词“Windows”。而图片、视频这些二进制文件，虽然也能由版本控制系统管理，但没法跟踪文件的变化，只能把二进制文件每次改动串起来，也就是只知道图片从100KB改成了120KB，但到底改了啥，版本控制系统不知道，也没法知道。  
+所有的版本控制系统，其实只能跟踪文本文件的改动，比如TXT文件，网页，所有的程序代码等等，Git也不例外。版本控制系统可以告诉你每次的改动，比如在第5行加了一个单词“Linux”，在第8行删了一个单词“Windows”。而图片、视频这些二进制文件，虽然也能由版本控制系统管理，但没法跟踪文件的变化，只能把二进制文件每次改动串起来，也就是只知道图片从100KB改成了120KB，但到底改了啥，版本控制系统不知道，也没法知道。    
 
-不幸的是，Microsoft的Word格式是二进制格式，因此，版本控制系统是没法跟踪Word文件的改动的，前面我们举的例子只是为了演示，如果要真正使用版本控制系统，就要以纯文本方式编写文件。  
+不幸的是，Microsoft的Word格式是二进制格式，因此，版本控制系统是没法跟踪Word文件的改动的，前面我们举的例子只是为了演示，如果要真正使用版本控制系统，就要以纯文本方式编写文件。    
 
-因为文本是有编码的，比如中文有常用的GBK编码，日文有Shift_JIS编码，如果没有历史遗留问题，强烈建议使用标准的UTF-8编码，所有语言使用同一种编码，既没有冲突，又被所有平台所支持。  
+因为文本是有编码的，比如中文有常用的GBK编码，日文有Shift_JIS编码，如果没有历史遗留问题，强烈建议使用标准的UTF-8编码，所有语言使用同一种编码，既没有冲突，又被所有平台所支持。    
 
-windows禁止使用记事本编辑文档（原因是Microsoft开发记事本的团队使用了一个非常弱智的行为来保存UTF-8编码的文件，他们自作聪明地在每个文件开头添加了0xefbbbf（十六进制）的字符，你会遇到很多不可思议的问题）  
+windows禁止使用记事本编辑文档（原因是Microsoft开发记事本的团队使用了一个非常弱智的行为来保存UTF-8编码的文件，他们自作聪明地在每个文件开头添加了0xefbbbf（十六进制）的字符，你会遇到很多不可思议的问题）    
 
 
 
 ### 第一步，用命令git add告诉Git，把文件添加到仓库：
 
-$ git add readme.txt
-执行上面的命令，没有任何显示，这就对了，Unix的哲学是“没有消息就是好消息”，说明添加成功。
+$ git add readme.txt  
+执行上面的命令，没有任何显示，这就对了，Unix的哲学是“没有消息就是好消息”，说明添加成功。  
 
 ### 第二步，用命令git commit告诉Git，把文件提交到仓库：
 
-$ git commit -m "新增加一个readme文件"
- [master (root-commit) abab012] 新增加一个readme文件
- 1 file changed, 2 insertions(+)
- create mode 100644 Readme.txt
+$ git commit -m "新增加一个readme文件"  
+ [master (root-commit) abab012] 新增加一个readme文件  
+ 1 file changed, 2 insertions(+)  
+ create mode 100644 Readme.txt  
 
-git commit命令执行成功后会告诉你，1 file changed：1个文件被改动（我们新添加的readme.txt文件）；2 insertions：插入了两行内容（readme.txt有两行内容）。
+git commit命令执行成功后会告诉你，1 file changed：1个文件被改动（我们新添加的readme.txt文件）；2 insertions：插入了两行内容（readme.txt有两行内容）。  
 
-注：git commit 后的-m 必须写（虽然有方法可以不写）   简单明了知道文档的变动  
+注：git commit 后的-m 必须写（虽然有方法可以不写）   简单明了知道文档的变动      
 
 
-为什么Git添加文件需要add，commit一共两步呢？因为commit可以一次提交很多文件，所以你可以多次add不同的文件，比如：
+为什么Git添加文件需要add，commit一共两步呢？因为commit可以一次提交很多文件，所以你可以多次add不同的文件，比如：  
 
 $ git add file1.txt
 $ git add file2.txt file3.txt
@@ -104,4 +104,68 @@ $ git commit -m "add 3 files."
 使用命令git commit -m <message>，完成。
 
 # 时光机穿梭  
+
+修改Readme.txt内容
+Git is a distributed version control system.
+Git is free software.
+
+## 运行git status  多运行git status 时刻了解git状态
+
+$ git status  
+On branch master  
+Changes not staged for commit:  
+  (use "git add <file>..." to update what will be committed)  
+  (use "git checkout -- <file>..." to discard changes in working directory)  
+  
+	modified:   readme.txt  
+  
+no changes added to commit (use "git add" and/or "git commit -a")  
+
+## git diff可以查看文档修改的内容
+
+$ git diff readme.txt    
+diff --git a/readme.txt b/readme.txt  
+index 46d49bf..9247db6 100644  
+--- a/readme.txt  
++++ b/readme.txt  
+@@ -1,2 +1,2 @@  
+-Git is a version control system.  
++Git is a distributed version control system.  
+ Git is free software.  
+
+
+之后git add Readme.txt 
+
+然后查看git status 
+$ git status  
+On branch master  
+Changes to be committed:  
+  (use "git reset HEAD <file>..." to unstage)  
+  
+	modified:   readme.txt  
+
+git status告诉我们，将要被提交的修改包括readme.txt，下一步，就可以放心地提交了：  
+
+$ git commit -m "add distributed"  
+[master e475afc] add distributed  
+ 1 file changed, 1 insertion(+), 1 deletion(-)  
+
+提交后，我们再用git status命令看看仓库的当前状态：  
+  
+$ git status  
+On branch master  
+nothing to commit, working tree clean  
+
+Git告诉我们当前没有需要提交的修改，而且，工作目录是干净（working tree clean）的。  
+
+小结
+要随时掌握工作区的状态，使用git status命令。
+
+如果git status告诉你有文件被修改过，用git diff可以查看修改内容。
+
+git add  
+git commit -m "xxx"
+git status 
+随时了解情况
+
 
