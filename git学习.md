@@ -45,8 +45,8 @@ IBM的ClearCase（以前是Rational公司的，被IBM收购了），特点是安
 linux / Mac os/ Windows 安装都挺方便
 安装完成之后：  
 
-git config --global user.name "Your Name"
-git config --global user.email "email@example.com"
+git config --global user.name "Your Name"  
+git config --global user.email "email@example.com"  
 Git是分布式版本控制系统，所以，每个机器都必须自报家门：你的名字和Email地址
 
 
@@ -102,3 +102,6 @@ $ git commit -m "add 3 files."
 
 使用命令git add <file>，注意，可反复多次使用，添加多个文件；
 使用命令git commit -m <message>，完成。
+
+# 时光机穿梭  
+
