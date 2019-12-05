@@ -322,3 +322,74 @@ Git is free software distributed under the GPL.
 Git has a mutable index called stage.  
 Git tracks changes.  
 
+git add 之后查看状态  
+
+$ git add readme.txt   
+$ git status    
+ On branch master  
+ Changes to be committed:  
+   (use "git reset HEAD <file>..." to unstage)  
+  
+       modified:   readme.txt  
+
+$ git commit -m "git tracks changes"
+[master 519219b] git tracks changes
+ 1 file changed, 1 insertion(+)  
+
+提交后，再看看状态：  
+
+$ git status  
+On branch master  
+Changes not staged for commit:  
+  (use "git add <file>..." to update what will be committed)  
+  (use "git checkout -- <file>..." to discard changes in working directory)  
+  
+	modified:   readme.txt  
+  
+no changes added to commit (use "git add" and/or "git commit -a")  
+
+Git管理的是修改，当你用git add命令后，在工作区的第一次修改被放入暂存区，准备提交，但是，在工作区的第二次修改并没有放入暂存区，所以，git commit只负责把暂存区的修改提交了，也就是第一次的修改被提交了，第二次的修改不会被提交。  
+
+提交后，用git diff HEAD -- readme.txt命令可以查看工作区和版本库里面最新版本的区别：  
+
+$ git diff HEAD -- readme.txt   
+diff --git a/readme.txt b/readme.txt  
+index 76d770f..a9c5755 100644  
+--- a/readme.txt  
++++ b/readme.txt  
+@@ -1,4 +1,4 @@  
+ Git is a distributed version control system.  
+ Git is free software distributed under the GPL.  
+ Git has a mutable index called stage.  
+-Git tracks changes.  
++Git tracks changes of files.  
+
+小结：  
+每次修改，如果不用git add到暂存区，那就不会加入到commit中。
+
+# 撤销修改  
+
+在readme.txt中添加了一行：  
+
+$ cat readme.txt  
+Git is a distributed version control system.  
+Git is free software distributed under the GPL.  
+Git has a mutable index called stage.  
+Git tracks changes of files.  
+My stupid boss still prefers SVN.  
+
+可以删掉最后一行，手动把文件恢复到上一个版本的状态。如果用git status查看一下：  
+
+$ git status  
+On branch master  
+Changes not staged for commit:  
+  (use "git add <file>..." to update what will be committed)  
+  (use "git checkout -- <file>..." to discard changes in working directory)  
+  
+	modified:   readme.txt  
+  
+no changes added to commit (use "git add" and/or "git commit -a")  
+
+
+
+       
