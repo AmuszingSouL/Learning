@@ -390,6 +390,55 @@ Changes not staged for commit:
   
 no changes added to commit (use "git add" and/or "git commit -a")  
 
+现在版本未发现 git checkout命令  
+新版命令应该是git restore --staged +文件名  直接清空工作区  
 
 
+Git会告诉你，git checkout -- file可以丢弃工作区的修改：  
+
+$ git checkout -- readme.txt  
+命令git checkout -- readme.txt意思就是，把readme.txt文件在工作区的修改全部撤销，这里有两种情况：  
+
+一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；  
+
+一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。  
+
+总之，就是让这个文件回到最近一次git commit或git add时的状态。  
+
+现在，看看readme.txt的文件内容：  
+
+$ cat readme.txt  
+Git is a distributed version control system.  
+Git is free software distributed under the GPL.  
+Git has a mutable index called stage.  
+Git tracks changes of files.  
+
+文件内容果然复原了。  
+  
+git checkout -- file命令中的--很重要，没有--，就变成了“切换到另一个分支”的命令，我们在后面的分支管理中会再次遇到git checkout命令。  
+
+git checkout命令应该是比较容易造成混乱  所以弃用了
+
+小结  
+又到了小结时间。  
+
+场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令git checkout -- file。  
+
+场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令git reset HEAD <file>，就回到了场景1，第二步按场景1操作。  
+
+场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，参考版本回退一节，不过前提是没有推送到远程库。  
+
+# 删除文件
+
+在Git中，删除也是一个修改操作，我们实战一下，先添加一个新文件test.txt到Git并且提交：  
+
+$ git add test.txt  
+
+$ git commit -m "add test.txt"  
+[master b84166e] add test.txt  
+ 1 file changed, 1 insertion(+)  
+ create mode 100644 test.txt  
+
+ 
+  
        
