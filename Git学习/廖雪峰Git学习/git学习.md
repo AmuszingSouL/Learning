@@ -439,6 +439,6 @@ $ git commit -m "add test.txt"
  1 file changed, 1 insertion(+)  
  create mode 100644 test.txt  
 
- 
+# 本地关联两个远程仓库
   
        
