@@ -143,6 +143,10 @@ mysql 暂时不支持
 
 ```
 
+* 方法4
+
+    可以使用in 或者 exists方法解决
+
 ### 3、查询选择了02课程但没有01课程的情况（没有说明课程03的情况要不要，运营需求的精髓，需求不明确，有发挥空间）
 
 * 方法1
@@ -171,6 +175,9 @@ where exists (select *
 	)
 
 ```
+
+结果如图：  
+![](img/hws2019-12-10-16-45-39.png)
 
 * 另外一种解答:
 
@@ -210,5 +217,200 @@ inner join
     from SC 
     where cid <> '01'
     )ti2 on ti1.sid=ti2.sid
+
+```
+结果如图：  
+![](img/hws2019-12-10-16-46-06.png)
+
+
+### 4、查询平均成绩大于等于60分的同学的学生编号和学生姓名和平均成绩
+
+* 方法1：
+
+```
+select 
+sc.sid as "学员编号",
+st.sname as "学员姓名",
+avg(score) as "平均分数"
+from sc
+left join Student st on st.sid = sc.sid
+group by 1,2 
+having avg(score) > 60
+
+```
+
+* 方法2：
+  
+```
+select 
+sc.sid as "学员编号",
+st.sname as "学员姓名",
+avg_score as "平均分数"
+from (
+    select sid,sname 
+    from Student
+) st
+inner join (
+    select sid,avg(score) as avg_score 
+    from SC
+    group by sid  
+    having avg(score)>=60
+    ) sc on sc.sid = st.sid
+group by sc.sid,st.sname
+
+```
+
+* 方法3    
+     
+  使用分析函数 avg() over()  
+  此题可以扩展下 显示每个学员各科成绩以及对应的平均成绩，总成绩，以及考试科目的数量  
+
+
+> 方法1和方法2 对比优选方法1
+> > 代码量   方法1代码量更少  
+> > 业务理解    方法1代表你通过对业务的理解可以优化代码  
+> > 思维方式    因为你知道关联学生信息更单独求均值是在同一个维度  
+
+结果如图：  
+![](img/hws2019-12-10-16-51-00.png) 
+
+
+### 5、查询在SC表存在成绩的学生信息（运营表述：查询有考试成绩的学员信息）
+
+* 方法1
+
+```
+select distinct t2.*
+from (
+select * 
+from SC
+)t1
+inner join (
+    select * 
+    from Student
+    )t2 on t1.sid=t2.sid;
+
+```
+* 方法2
+
+```
+select * 
+from Student
+where sid in (select distinct sid
+              from sc)
+```
+
+* 方法3
+
+```
+select *
+from Student as st
+where exists (select * 
+              from sc 
+              where sc.sid = st.sid
+              )
+
+```
+
+> 复习下exists跟in的区别  一个内表  一个外表  
+
+结果如图：(没有显示sid=08的学员信息，因为他没有成绩)
+![](img/hws2019-12-10-17-06-51.png)
+
+### 6、查询所有同学的学生编号、学生姓名、选课总数、所有课程的成绩总和
+
+> 注意需求，是所有同学的  注意主表  
+
+* 方法1
+
+```
+select 
+st.sid as "学员编号",
+st.sname as "学员姓名",
+count(distinct sc.cid) as "选课总数",
+sum(score) as "平均分数"
+from Student st 
+left join sc on st.sid = sc.sid
+group by 1,2 
+ 
+```
+
+知识点：  1. count会不会计算null
+         2. 要判断谁做主表
+
+* 方法2
+
+```
+count() over()
+sum() over()
+
+```
+
+结果如图:  
+![](img/hws2019-12-10-17-31-48.png)
+
+### 7、查询没有学全所有课程的同学的信息
+
+知识点
+> 1. 怎么判断全部课程（课程数量、课程ID)
+> 2. 没有学全怎么限制
+
+* 方法1  
+
+```
+select 
+st.sid as "学员编号",
+st.sname as "学员姓名",
+count(distinct sc.cid) as "选课总数",
+(select count(distinct cid) from sc) as "所有课程数量"
+from Student st 
+left join sc on st.sid = sc.sid
+group by 1,2 
+having count(distinct sc.cid) < (select count(distinct cid) from sc)
+
+```
+
+* 方法2
+
+> 该方法这么处理，显然已经知道一共3门课程
+
+```
+select sid,sname 
+from Student
+where sid not in (  select sid 
+                    from SC 
+                    group by sid  
+                    having count(distinct cid)=3
+)
+
+```
+
+* 方法3
+
+```
+
+
+```
+
+
+>mysql中，where后可以跟子查询，却不能跟聚合函数！但having后可以跟聚合函数，同时可以加子查询！
+
+> 上面方法1的脚本中如果把left join 改为inner join 就会减少一条数据 思考为是什么 
+> 因为有一个人一科成绩也没有  他没有参加考试    
+
+
+
+结果如图：
+![](img/hws2019-12-10-17-39-24.png)
+
+
+### 8、查询至少有一门课与学号为" 01 "的同学所学相同的同学的信息
+
+> 1. 需要先确定01同学都学了哪些课程
+> 2. 再看下这些课程都有哪些同学参加即可
+> 3. 然后关联学生基本信息表
+
+```
+
 
 ```
