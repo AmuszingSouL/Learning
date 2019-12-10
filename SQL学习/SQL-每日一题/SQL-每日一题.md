@@ -143,4 +143,72 @@ mysql 暂时不支持
 
 ```
 
-### 3、查询选择了02课程但没有01课程的情况
+### 3、查询选择了02课程但没有01课程的情况（没有说明课程03的情况要不要，运营需求的精髓，需求不明确，有发挥空间）
+
+* 方法1
+```
+ SELECT *
+ FROM SC
+ WHERE SC.sid NOT IN (   --  not in 没有选择  不在选择之中
+     SELECT sid 
+     FROM SC 
+     WHERE SC.cid = '01'  -- 筛选出选择了课程1的学生
+     )
+ AND SC.cid = '02'  
+```
+
+* 方法2  （exists 返回一个布尔类型的值  True\False) 强行使用exists 
+```
+select *
+from sc as b
+where exists (select * 
+	      from sc as a 
+              where a.sid not in (select sid 
+				 from sc 
+				  where cid = '01'
+			)
+		and a.sid = b.sid
+	)
+
+```
+
+* 另外一种解答:
+
+
+> 方法1: 没有选择课程01的为主表  通过学员编号该关联选择课程02的信息  因为通过学员编号 不能保持唯一 所以会有一个学员选择多门课程的情况
+
+```
+
+select ti1.*,ti2.score as score1 
+from 
+(
+    select * 
+    from SC
+    where cid <>'01'
+)ti1
+inner join 
+    (select * 
+    from SC 
+    where cid='02'
+    )ti2 on ti1.sid=ti2.sid
+
+```
+
+> 方法2：方法1和方法2的区别在于谁做主表，因为是inner join 所以谁做主表无所谓了 如果是其他join 需要注意
+> 个人认为方法2 更容易理解：先筛选出选择课程02的同学 然后筛选出没选择课程01的同学   通过学员ID进行关联
+
+```
+select ti1.*,ti2.score as score1 
+from 
+(
+    select * 
+    from SC
+    where cid = '02'
+)ti1
+inner join 
+    (select * 
+    from SC 
+    where cid <> '01'
+    )ti2 on ti1.sid=ti2.sid
+
+```
