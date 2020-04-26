@@ -1,1 +1,0 @@
-java -jar C:\presto-cli.jar --user "haoweisong"  --password "hscsjyy@HHHHHH" --group adhoc --catalog hive --source "pf=adhoc;client=cli"  --server https://presto.guazi-apps.com:9400   -f C:\qq.sql --output-format CSV_HEADER >> C:\Users\Administrator\Downloads\核销20200411.csv
