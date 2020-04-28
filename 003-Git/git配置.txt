@@ -1,0 +1,13 @@
+git配置
+
+1. 配置全局的name和email
+配置全局的name和email，这里是你的github的账号和email
+配置的命令如下：
+git config --global user.name "AmuszingSouL"
+git config --global user.email "410903559@qq.com"
+
+
+
+2. 生成SSH公钥
+命令如下：
+ssh-keygen -t rsa -C "410903559@qq.com"

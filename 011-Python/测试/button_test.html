@@ -1,0 +1,43 @@
+<!doctype html>
+<head>
+    <title>alert,confirm and prompt</title>
+    <script type='text/javascript'>
+        function myFunctionAlert(){
+            window.alert('this is an alert, it has a confirm button')
+            document.getElementById('action').value = 'you just clicked confirm button of alert()'
+        }
+
+        function myFunctionConfirm(){
+            var result = window.confirm('this is a confirm,it has a confirm button and a cancel button')
+            if(result == true){
+                document.getElementById('action').value = 'you just clicked confirm button of confirm()'
+            }else if(result == false){
+                document.getElementById('action').value = 'you just clicked cancel button of confirm()'
+            }else{
+                document.getElementsById('action').value = 'you did nothing'
+            }
+        }
+
+        function myFunctionPrompt(){
+           var result = window.prompt('this is a prompt,it has an input and two buttons')
+           if(result == null){
+               document.getElementById('action').value = 'you just clicked cancel button of prompt()'
+           }else if(result == ''){
+               document.getElementById('action').value = 'you just input nothing and clicked confirm button of prompt()'
+           }else{
+               document.getElementById('action').value = 'you just input \'' + result + '\' and clicked confirm button of promt()'
+           }
+        }
+    </script>
+    <body>
+        <br>
+        <button type='button' onclick='myFunctionAlert()'>show alert</button>
+        <br>
+        <button type='button' onclick='myFunctionConfirm()'>show confirm</button>
+        <br>
+        <button type='button' onclick='myFunctionPrompt()'>show prompt</button>
+        <br>
+        <textarea id='action' style="width:200px;height:100px;font-family: Microsoft YaHei"></textarea>
+    </body>
+</head>
+ 
